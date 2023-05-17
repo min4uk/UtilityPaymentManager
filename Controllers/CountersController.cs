@@ -16,11 +16,13 @@ namespace UtilityPaymentManager.Controllers
         public CountersController(ApplicationDbContext context)
         {
             _context = context;
-        }
 
-        // GET: Counters billing
-        public async Task<IActionResult> PaymentIndex()
+		}
+
+		// GET: Counters billing
+		public async Task<IActionResult> PaymentIndex()
         {
+			ViewData["PaidCounters"] = _context.PaidCounters.ToList();
 			return _context.Counters != null ?
 						  View(await _context.Counters.ToListAsync()) :
 						  Problem("Entity set 'ApplicationDbContext.Counters'  is null.");

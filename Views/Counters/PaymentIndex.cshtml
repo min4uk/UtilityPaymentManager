@@ -34,35 +34,51 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
-		{
+		<form asp-action="Pay">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			@foreach (var item in Model)
+			{
 			<tr>
 				<td>
-					@Html.DisplayFor(modelItem => item.Name)
+					<input type="hidden" value="@item.Name" />
+						@Html.DisplayFor(modelItem => item.Name)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.CurrentNumber)
+					<input type="hidden" value="@item.CurrentNumber" />
+						@Html.DisplayFor(modelItem => item.CurrentNumber)
 				</td>
 				<td>
-					<input id="newNumber" type="text"> @*дописати*@
+					@*<label asp-for="NewNumber" class="control-label"></label>
+					<input asp-for="NewNumber" id="newNumInput" class="form-control" />
+				<span asp-validation-for="NewNumber" class="text-danger"></span>*@
 				</td>
 				<td>
-					@*@(item.CurrentNumber - newNumber) = changeAmount*@
+					@*<input type="hidden" value="@(item.CurrentNumber - NewNumber)" />
+						@(item.CurrentNumber - newNumber) = changeAmount*@
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Price)
+						@Html.DisplayFor(modelItem => item.Price)
 				</td>
 				<td>
-					@*@(changeAmount * item.Price) = Sum*@
+					@*<input type="hidden" value="@(ChangeAmount * item.Price)" />
+						@(changeAmount * item.Price) = Sum*@
 				</td>
 				<td>
-					<a asp-action="Pay" >Pay</a>
+					<input type="submit" value="Pay" class="btn btn-primary" />
 				</td>
 			</tr>
-		}
+			}
+		</form>
 	</tbody>
 </table>
 
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+
 @{
-	await Html.RenderPartialAsync("PaidCounterPartialDetail"); // передати сюди модель?
+	await Html.RenderPartialAsync("PaidCounterPartialDetail", ViewData["PaidCounters"]); // передати сюди модель?
 }
