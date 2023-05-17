@@ -18,8 +18,46 @@ namespace UtilityPaymentManager.Controllers
             _context = context;
         }
 
-        // GET: Counters
-        public async Task<IActionResult> Index()
+        // GET: Counters billing
+        public async Task<IActionResult> PaymentIndex()
+        {
+			return _context.Counters != null ?
+						  View(await _context.Counters.ToListAsync()) :
+						  Problem("Entity set 'ApplicationDbContext.Counters'  is null.");
+		}
+
+        // POST: Pay
+        [HttpPost]
+		public async Task<IActionResult> Pay([Bind("PaidCounterId,PaidCounterName,PreviousNumber,NewNumber,ChangeAmount,PaidCounterPrice,PaidCounterSum")] PaidCounter paidCounter)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(paidCounter);
+				await _context.SaveChangesAsync();
+                return PartialView("PaidCounterPartialDetail", await _context.PaidCounters.ToListAsync() );
+			}
+			return View(paidCounter);
+		}
+
+		// RemovePaidCounter
+		public async Task<IActionResult> RemovePaidCounter(int id)
+		{
+			if (_context.PaidCounters == null)
+			{
+				return Problem("Entity set 'ApplicationDbContext.Counters'  is null.");
+			}
+			var paidCounter = await _context.PaidCounters.FindAsync(id);
+			if (paidCounter != null)
+			{
+				_context.PaidCounters.Remove(paidCounter);
+			}
+
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(PaymentIndex));
+		}
+
+		// GET: Counters
+		public async Task<IActionResult> Index()
         {
               return _context.Counters != null ? 
                           View(await _context.Counters.ToListAsync()) :

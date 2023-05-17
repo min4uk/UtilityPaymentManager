@@ -1,0 +1,56 @@
+﻿@model IEnumerable<UtilityPaymentManager.Models.PaidCounter>
+<h2>Receipt</h2>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.PaidCounterName)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PreviousNumber)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.NewNumber)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ChangeAmount)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PaidCounterPrice)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.PaidCounterSum)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.PaidCounterName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PreviousNumber)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.NewNumber)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.ChangeAmount)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PaidCounterPrice)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.PaidCounterSum)
+				</td>
+				<td>
+					<a asp-action="RemovePaidCounter" asp-route-id="@item.PaidCounterId">Remove</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

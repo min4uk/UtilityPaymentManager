@@ -1,0 +1,68 @@
+﻿@model IEnumerable<UtilityPaymentManager.Models.Counter>
+
+@{
+	ViewData["Title"] = "Payment index";
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-action="Create">Create New counter</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.CurrentNumber)
+			</th>
+			<th>
+				New number
+			</th>
+			<th>
+				Change amount
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Price)
+			</th>
+			<th>
+				Sum
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.CurrentNumber)
+				</td>
+				<td>
+					<input id="newNumber" type="text"> @*дописати*@
+				</td>
+				<td>
+					@*@(item.CurrentNumber - newNumber) = changeAmount*@
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Price)
+				</td>
+				<td>
+					@*@(changeAmount * item.Price) = Sum*@
+				</td>
+				<td>
+					<a asp-action="Pay" >Pay</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@{
+	await Html.RenderPartialAsync("PaidCounterPartialDetail"); // передати сюди модель?
+}
